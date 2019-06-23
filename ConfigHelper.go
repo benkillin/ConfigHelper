@@ -32,3 +32,21 @@ func GetConfigWithDefault(filename string, defaultConfig interface{}, configInst
 
 	return nil
 }
+
+// SaveConfig Save a config interface as json to the specified file
+func SaveConfig(filename string, config interface{}) error {
+	configJSON, err := json.MarshalIndent(config, "", "  ")
+	if err != nil {
+		log.Fatalf("Error saving config file (%s): %s", filename, err)
+		return err
+	}
+
+	err = ioutil.WriteFile(filename, configJSON, 0644)
+
+	if err != nil {
+		log.Printf("Error saving config: %s\n", err)
+		return err
+	}
+
+	return nil
+}
